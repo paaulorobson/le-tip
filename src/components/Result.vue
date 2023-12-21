@@ -15,6 +15,10 @@
 
     <p>em R$</p>
     <strong>{{ filterFormatMoneyBRL(store.convertedAmount) }}</strong>
+
+    <div>
+     <button  @click="toGoBack" v-if="isMobile" class="result__button"> Calcular gorjeta</button>
+    </div>
   </section>
 </template>
 
@@ -23,6 +27,26 @@ import { tipStore } from '../stores';
 import { filterFormatMoney, filterFormatMoneyBRL } from '../utils/filters';
 const store = tipStore()
 
-const props = defineProps(['currency'])
+const props = defineProps(['currency', 'isMobile'])
+
+const emit = defineEmits(['back'])
+
+const toGoBack = () => {
+  emit('back');
+}
 
 </script>
+
+<style scoped>
+.result__button {
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-left: 50%;
+  width: 150px;
+  background-color: #005CC8;
+  border: none;
+  height: 30px;
+  border-radius: 8px;
+  color: #fff;
+}
+</style>

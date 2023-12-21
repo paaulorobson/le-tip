@@ -1,7 +1,7 @@
 <template>
   <div class="letip">
     <main class="letip__content">
-      <form class="letip__form">
+      <form class="letip__form" v-if="!result">
         <div class="letip__form-content">
           <div class="letip__form-wrapper--radio">
             <label>EUR</label><input type="radio" id="eur" v-model="selectedCurrency" value="EUR" class="letip__custom-radio">
@@ -32,8 +32,11 @@
             </div>
           </div>
         </div>
+        <div>
+          <button class="letip__form-button" v-if="isMobile" @click="toggleResult"> Ver resultado</button>
+        </div>
       </form>
-      <Result :currency="currency"/>
+      <Result :currency="currency" :is-mobile="isMobile" @back="toggleResult" v-if="!isMobile || result"/>
     </main>
   </div>
 </template>
@@ -47,8 +50,12 @@ const store = tipStore()
 
 onMounted(()=> {
   store.fetchExchangeRate()
+  checkIfMobile();
+  window.addEventListener('resize', checkIfMobile);
 })
 
+const isMobile = ref(false);
+const result = ref(false);
 const selectedCurrency = ref(store.selectedCurrency);
 const billAmount = ref(store.billAmount);
 const tipPercentage = ref(store.tipPercentage);
@@ -73,6 +80,14 @@ const currency = computed(()=> {
 const simbol = computed(() => {
   return selectedCurrency.value === 'USD' ? 'US$' : '€';
 })
+
+const checkIfMobile = () => {
+  isMobile.value = window.matchMedia('(max-width: 768px)').matches;
+}
+
+const toggleResult = () => {
+  result.value = !result.value
+}
 
 </script>
 
@@ -134,7 +149,16 @@ const simbol = computed(() => {
   font-weight: bold;
 }
 
-@media (min-width: 1024px) {
-  
+.letip__form-button {
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-left: 50%;
+  width: 150px;
+  background-color: #005CC8;
+  border: none;
+  height: 30px;
+  border-radius: 8px;
+  color: #fff;
 }
+
 </style>
