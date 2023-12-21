@@ -33,7 +33,7 @@
           </div>
         </div>
       </form>
-      <Result :simbol="simbol"/>
+      <Result :currency="currency"/>
     </main>
   </div>
 </template>
@@ -66,8 +66,12 @@ watchEffect(() => {
     store.setConvertedAmount();
 })
 
-const simbol = computed(()=> {
-  return selectedCurrency.value === 'USD' ? '$' : '€';
+const currency = computed(()=> {
+  return selectedCurrency.value === 'USD' ? 'USD' : 'EUR';
+})
+
+const simbol = computed(() => {
+  return selectedCurrency.value === 'USD' ? 'US$' : '€';
 })
 
 </script>

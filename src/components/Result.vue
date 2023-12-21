@@ -2,19 +2,19 @@
   <section class="result">
     <h3>Resultado</h3>
     <p>Conta</p>
-    <strong><span>{{props.simbol}}</span> {{ store.billAmount }}</strong>
+    <strong> {{ getMoneyMask(store.billAmount) }}</strong>
 
     <p>Gorjeta</p>
-    <strong><span>{{props.simbol}}</span> {{ store.tipAmount }}</strong>
+    <strong> {{ getMoneyMask(store.tipAmount) }}</strong>
 
     <p>Total</p>
-    <strong><span>{{props.simbol}}</span> {{ store.totalAmount }}</strong>
+    <strong> {{ getMoneyMask(store.totalAmount) }}</strong>
 
     <p>por Pessoa</p>
-    <strong><span>{{props.simbol}}</span> {{store.amountPerPerson}}</strong>
+    <strong> {{getMoneyMask(store.amountPerPerson)}}</strong>
 
     <p>em R$</p>
-    <strong>R$ {{ store.convertedAmount }}</strong>
+    <strong>{{ getMoneyRealMask(store.convertedAmount) }}</strong>
   </section>
 </template>
 
@@ -22,6 +22,17 @@
 import { tipStore } from '../stores';
 const store = tipStore()
 
-const props = defineProps(['simbol'])
+const props = defineProps(['currency'])
+
+const getMoneyMask = (value) => parseFloat(value).toLocaleString('pt-BR', {
+  style: 'currency',
+  currency: props.currency,
+});
+
+const getMoneyRealMask = (value) => parseFloat(value).toLocaleString('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+})
+
 
 </script>

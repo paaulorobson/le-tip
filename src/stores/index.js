@@ -17,7 +17,7 @@ export const tipStore = defineStore('tip', {
   getters: {
     tipAmount(state) { return Math.round(state.billAmount * (state.tipPercentage / 100)) * 100 / 100},
     totalAmount(state) { return state.billAmount + state.tipAmount },
-    amountPerPerson(state) { return (state.totalAmount / state.numberOfPeople).toFixed(2)},
+    amountPerPerson(state) { return (state.totalAmount / state.numberOfPeople)},
   },
 
   actions: {
@@ -38,7 +38,7 @@ export const tipStore = defineStore('tip', {
     },
 
     setConvertedAmount() {
-     this.convertedAmount = (this.billAmount * this.quoteValue).toFixed(2)
+      this.convertedAmount = (this.totalAmount * this.quoteValue).toFixed(2)
     },
 
     async fetchExchangeRate() {  
